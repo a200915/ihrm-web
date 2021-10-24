@@ -14,6 +14,9 @@ import router from './router'
 
 import '@/icons' // icon
 import '@/permission' // permission control
+import globalRegister from '@/utils/globalRegister'
+
+Vue.use(globalRegister)
 
 /**
  * If you don't want to use mock-server

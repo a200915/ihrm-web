@@ -36,6 +36,17 @@ module.exports = {
     overlay: {
       warnings: false,
       errors: true
+    },
+    // proxy代理接口（解决跨域，此处使用是借用别人后端接口）
+    proxy: {
+      '/api': {
+        target: 'http://ihrm-java.itheima.net/', // 要代理的服务器地址  这里不用写 api
+        changeOrigin: true // 是否跨域
+        // 重写路径
+        // pathRewrite: {
+        //   '^/api':'' // 这样可以去掉api前缀
+        // }
+      }
     }
     // 不使用mock数据
     // before: require('./mock/mock-server.js')
