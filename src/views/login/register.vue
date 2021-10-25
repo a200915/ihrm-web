@@ -1,9 +1,9 @@
 <template>
   <div class="login-container">
     <el-form
-      ref="loginForm"
-      :model="loginForm"
-      :rules="loginRules"
+      ref="registerForm"
+      :model="registerForm"
+      :rules="registerRules"
       class="login-form"
       auto-complete="on"
       label-position="left"
@@ -15,30 +15,33 @@
       </div>
 
       <el-form-item prop="mobile">
-        <span class="svg-container">
-          <svg-icon icon-class="user" />
-        </span>
         <el-input
-          ref="mobile"
-          v-model="loginForm.mobile"
+          v-model="registerForm.mobile"
           placeholder="请输入手机号"
-          name="mobile"
           type="text"
         />
       </el-form-item>
 
       <el-form-item prop="password">
-        <span class="svg-container">
-          <svg-icon icon-class="password" />
-        </span>
         <el-input
-          :key="passwordType"
           ref="password"
-          v-model="loginForm.password"
+          v-model="registerForm.password"
           :type="passwordType"
           placeholder="请输入密码"
-          name="password"
-          @keyup.enter.native="handleLogin"
+        />
+        <span class="show-pwd" @click="showPwd">
+          <svg-icon
+            :icon-class="passwordType === 'password' ? 'eye' : 'eye-open'"
+          />
+        </span>
+      </el-form-item>
+
+      <el-form-item prop="password">
+        <el-input
+          ref="password"
+          v-model="registerForm.password"
+          :type="passwordType"
+          placeholder="确认密码"
         />
         <span class="show-pwd" @click="showPwd">
           <svg-icon
@@ -52,74 +55,40 @@
         type="primary"
         class="loginBtn"
         style="width: 100%; margin-bottom: 30px"
-        @click.native.prevent="handleLogin"
-        >登录</el-button
+        @click.native.prevent="handleregister"
+        >注册</el-button
       >
       <div class="reg">
-        <span @click="toRegister">还没有账号？立即注册</span>
+        <span @click="toLogin">使用已有帐户登录</span>
       </div>
-
-      <!-- <div class="tips">
-        <p>mobile: 13800000002</p>
-        <p>password: 123456</p>
-      </div> -->
     </el-form>
   </div>
 </template>
 
 <script>
-import { validateMobile } from '@/utils/validate'
-import { mapActions } from 'vuex'
-
 export default {
-  name: 'Login',
+  name: 'register',
   data () {
-    const validateMobileValidator = (rule, value, callback) => {
-      if (!validateMobile(value)) {
-        callback(new Error('手机号不合法'))
-      } else {
-        callback()
-      }
-    }
-    const validatePassword = (rule, value, callback) => {
-      if (value.length < 6) {
-        callback(new Error('密码长度必须大于6'))
-      } else {
-        callback()
-      }
-    }
     return {
-      loginForm: {
-        mobile: '13800000002',
-        password: '123456'
+      registerForm: {
+        mobile: '',
+        password: ''
       },
-      loginRules: {
+      registerRules: {
         mobile: [
           {
             required: true,
-            trigger: 'blur',
-            validator: validateMobileValidator
+            message: '手机号不能为空',
+            trigger: 'blur'
           }
         ],
-        password: [
-          { required: true, trigger: 'blur', validator: validatePassword }
-        ]
+        password: [{ required: true, message: '密码不能为空', trigger: 'blur' }]
       },
-      loading: false,
       passwordType: 'password',
-      redirect: undefined
-    }
-  },
-  watch: {
-    $route: {
-      handler: function (route) {
-        this.redirect = route.query && route.query.redirect
-      },
-      immediate: true
+      loading: false
     }
   },
   methods: {
-    ...mapActions(['user/login']),
     showPwd () {
       if (this.passwordType === 'password') {
         this.passwordType = ''
@@ -130,21 +99,19 @@ export default {
         this.$refs.password.focus()
       })
     },
-    // 登录
-    handleLogin () {
+    // 注册
+    handleregister () {
       this.$refs.loginForm.validate(async valid => {
         if (valid) {
-          this['user/login'](this.loginForm)
-          this.$router.push({ path: this.redirect || '/' })
         } else {
           console.log('error submit!!')
           return false
         }
       })
     },
-    // 注册
-    toRegister () {
-      this.$router.push('/reg')
+    // 登录
+    toLogin () {
+      this.$router.push('/login')
     }
   }
 }
