@@ -1,53 +1,37 @@
 import axios from 'axios'
-import { MessageBox, Message } from 'element-ui'
+import { Message } from 'element-ui'
 import store from '@/store'
 import { getToken } from '@/utils/auth'
 
 // create an axios instance
 const service = axios.create({
-  baseURL: process.env.VUE_APP_BASE_API, // url = base url + request url
-  // withCredentials: true, // send cookies when cross-domain requests
-  timeout: 5000 // request timeout
+  baseURL: process.env.VUE_APP_BASE_API, // 请求基地址
+  // withCredentials: true, // 请求是否携带cookie
+  timeout: 5000 // 请求超时设定
 })
 
-// request interceptor
+// 请求拦截器
 service.interceptors.request.use(
   config => {
     // do something before request is sent
-
     if (store.getters.token) {
-      // let each request carry token
-      // ['X-Token'] is a custom headers key
-      // please modify it according to the actual situation
-      // config.headers['X-Token'] = getToken()
       // 根据项目而定
       config.headers['Authorization'] = `Bearer ${getToken()}`
     }
     return config
   },
   error => {
-    // do something with request error
     console.log(error) // for debug
     return Promise.reject(error)
   }
 )
 
-// response interceptor
+// 响应拦截器
 service.interceptors.response.use(
-  /**
-   * If you want to get http information such as headers or status
-   * Please return  response => response
-   */
-
-  /**
-   * Determine the request status by custom code
-   * Here is just an example
-   * You can also judge the status by HTTP Status Code
-   */
   response => {
+    // 统一处理响应数据，返回成功的响应数据，提示错误信息
+    // 这里使用success判定请求是否成功，还有可能是使用后端返回的一个状态码判断响应的是哪种数据
     const { success, data, message } = response.data
-
-    // if the custom code is not 20000, it is judged as an error.
     if (success) {
       return data
     } else {

@@ -12,12 +12,14 @@ export const put = (url, data) => {
 }
 
 const api = Object.create(null)
-api.base = { get, post, put }
+const base = { get, post, put }
+Object.assign(api, { base })
+// api.base = { get, post, put }
+// console.log(api)
 
 /**
  * 动态注册API接口
  * 调用方法： this.$api.{文件名}.{接口函数名称}
- * 
  */
 const registerModule = (moduleName, datas) => {
   api[moduleName] = {}
@@ -34,6 +36,5 @@ mod.keys().forEach(item => {
   const apiMoudleName = item.replace(/^\.\//, '').replace(/\.\w+$/, '')
   apiDefinitionData && registerModule(apiMoudleName, apiDefinitionData)
 })
-
 
 export default api

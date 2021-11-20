@@ -6,7 +6,11 @@
       @toggleClick="toggleSideBar"
     />
 
-    <breadcrumb class="breadcrumb-container" />
+    <!-- <breadcrumb class="breadcrumb-container" /> 不使用这个面包屑 -->
+    <div class="cpmpany-name">
+      万帆集团股份有限公司
+      <el-tag>尊享版</el-tag>
+    </div>
 
     <div class="right-menu">
       <el-dropdown class="avatar-container" trigger="click">
@@ -65,6 +69,7 @@ export default {
   background-image: -webkit-linear-gradient(left, #3d6df8, #5b8cff);
 
   .hamburger-container {
+    fill: #fff; // svg改变颜色使用fill填充
     line-height: 46px;
     height: 100%;
     float: left;
@@ -130,6 +135,19 @@ export default {
           font-size: 12px;
         }
       }
+    }
+  }
+  .cpmpany-name {
+    display: inline-block;
+    color: #fff;
+    font-size: 18px;
+    font-weight: 400;
+    line-height: 50px;
+    ::v-deep .el-tag {
+      font-size: 16px;
+      border-radius: 20px;
+      cursor: pointer;
+      margin-left: 10px;
     }
   }
 }

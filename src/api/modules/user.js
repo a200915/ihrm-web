@@ -12,3 +12,18 @@ export function login (data) {
 // 用户注册
 
 // 用户注销
+
+// 获取用户基本资料
+export function getUserDetailById (id) {
+  return request({
+    url: `/sys/user/${id}`
+  })
+}
+
+// 获取用户信息
+export function getUserInfo () {
+  return request({
+    url: '/sys/profile',
+    method: 'post'
+  })
+}
