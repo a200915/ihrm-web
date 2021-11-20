@@ -19,8 +19,11 @@
         trigger="click"
       >
         <div class="avatar-wrapper">
-          <img :src="avatar + '?imageView2/1/w/80/h/80'" class="user-avatar" />
-          <i class="el-icon-caret-bottom" />
+          <div class="user">
+            <img :src="staffPhoto" class="user-avatar" />
+            <span class="name">{{ username }}</span>
+            <i class="el-icon-caret-bottom" />
+          </div>
         </div>
         <el-dropdown-menu slot="dropdown" class="user-dropdown">
           <router-link to="/">
@@ -48,7 +51,7 @@ export default {
     Hamburger
   },
   computed: {
-    ...mapGetters(['sidebar', 'avatar'])
+    ...mapGetters(['sidebar', 'staffPhoto', 'username'])
   },
   methods: {
     ...mapActions('user', ['logout']),
@@ -137,25 +140,28 @@ export default {
     }
 
     .avatar-container {
+      color: #fff;
       margin-right: 30px;
 
       .avatar-wrapper {
-        margin-top: 5px;
         position: relative;
 
         .user-avatar {
           cursor: pointer;
-          width: 40px;
-          height: 40px;
-          border-radius: 10px;
+          width: 30px;
+          height: 30px;
+          border-radius: 15px;
+          vertical-align: middle;
+        }
+        .name {
+          color: #fff;
+          vertical-align: middle;
+          margin-left: 5px;
         }
 
         .el-icon-caret-bottom {
           cursor: pointer;
-          position: absolute;
-          right: -20px;
-          top: 25px;
-          font-size: 12px;
+          vertical-align: middle;
         }
       }
     }

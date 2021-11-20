@@ -58,7 +58,7 @@ export const constantRoutes = [
         path: 'dashboard',
         name: 'Dashboard',
         component: () => import('@/views/dashboard/index'),
-        meta: { title: 'Dashboard', icon: 'dashboard' }
+        meta: { title: '首页', icon: 'dashboard' }
       }
     ]
   }
@@ -69,10 +69,7 @@ export const constantRoutes = [
  * the routes that need to be dynamically loaded based on user roles
  * 需要根据角色来动态加载的路由（受权限管控）
  */
-export const asyncRoutes = [
-  // 404 page must be placed at the end !!!
-  { path: '*', redirect: '/404', hidden: true }
-]
+export const asyncRoutes = []
 
 const createRouter = () =>
   new Router({

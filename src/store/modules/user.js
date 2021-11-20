@@ -1,14 +1,13 @@
 // 用户登录、注销、token的储存和删除等
 
-import { login, logout, getInfo } from '@/api/modules/user'
+import { login, getUserInfo, getUserDetailById } from '@/api/modules/user'
 import { getToken, setToken, removeToken } from '@/utils/auth'
 import { resetRouter } from '@/router'
 
 const getDefaultState = () => {
   return {
     token: getToken(),
-    name: '',
-    avatar: '',
+    userInfo: {},
     roles: []
   }
 }
@@ -22,11 +21,8 @@ const mutations = {
   SET_TOKEN: (state, token) => {
     state.token = token
   },
-  SET_NAME: (state, name) => {
-    state.name = name
-  },
-  SET_AVATAR: (state, avatar) => {
-    state.avatar = avatar
+  SET_USER_INFO: (state, userInfo) => {
+    state.userInfo = userInfo
   },
   SET_ROLES: (state, roles) => {
     state.roles = roles
@@ -53,33 +49,18 @@ const actions = {
   },
 
   // 获取用户基本信息
-  getInfo ({ commit, state }) {
-    return new Promise((resolve, reject) => {
-      getInfo(state.token)
-        .then(response => {
-          const { data } = response
-          if (!data) {
-            reject('Verification failed, please Login again.')
-          }
-          const { roles, name, avatar } = data
-
-          // roles must be a non-empty array
-          if (!roles || roles.length <= 0) {
-            reject('getInfo: roles must be a non-null array!')
-          }
-          commit('SET_ROLES', roles)
-          commit('SET_NAME', name)
-          commit('SET_AVATAR', avatar)
-          resolve(data)
-        })
-        .catch(error => {
-          reject(error)
-        })
+  asyncGetInfo ({ commit, state }) {
+    return new Promise(async (resolve, reject) => {
+      const { roles, userId } = await getUserInfo()
+      commit('SET_ROLES', roles.menus)
+      const res = await getUserDetailById(userId)
+      commit('SET_USER_INFO', res)
+      resolve(roles)
     })
   },
 
   // 用户注销
-  logout ({ commit, state }) {
+  logout ({ commit }) {
     return new Promise((resolve, reject) => {
       // 删除token
       removeToken()
