@@ -13,7 +13,11 @@
     </div>
 
     <div class="right-menu">
-      <el-dropdown class="avatar-container" trigger="click">
+      <el-dropdown
+        class="avatar-container"
+        @command="handleCommand"
+        trigger="click"
+      >
         <div class="avatar-wrapper">
           <img :src="avatar + '?imageView2/1/w/80/h/80'" class="user-avatar" />
           <i class="el-icon-caret-bottom" />
@@ -24,7 +28,7 @@
               首页
             </el-dropdown-item>
           </router-link>
-          <el-dropdown-item divided @click.native="logout">
+          <el-dropdown-item divided command="logout">
             <span style="display:block;">注销</span>
           </el-dropdown-item>
         </el-dropdown-menu>
@@ -34,7 +38,7 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { mapActions, mapGetters } from 'vuex'
 import Breadcrumb from '@/components/Breadcrumb'
 import Hamburger from '@/components/Hamburger'
 
@@ -47,12 +51,31 @@ export default {
     ...mapGetters(['sidebar', 'avatar'])
   },
   methods: {
+    ...mapActions('user', ['logout']),
     toggleSideBar () {
       this.$store.dispatch('app/toggleSideBar')
     },
-    async logout () {
-      // await this.$store.dispatch('user/logout')
-      // this.$router.push(`/login?redirect=${this.$route.fullPath}`)
+    handleCommand (command) {
+      switch (command) {
+        case 'logout':
+          // 注销
+          this.handleLogout()
+          break
+
+        default:
+          break
+      }
+    },
+    async handleLogout () {
+      /**
+       * 注销逻辑：
+       * 1.清除token
+       * 2.重置路由（因为是动态添加的路由）
+       * 3.请求注销接口(不涉及)
+       * 4.跳转到登录页面（不带回跳地址）
+       */
+      console.log(this.logout)
+      this.logout()
       this.$router.push('/login')
     }
   }

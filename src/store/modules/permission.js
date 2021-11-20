@@ -1,3 +1,4 @@
+// 权限控制相关的（如动态添加路由等）
 import { asyncRoutes, constantRoutes } from '@/router'
 
 /**

@@ -1,3 +1,4 @@
+// 设置类相关（如：layout头部固定滚动等）
 import defaultSettings from '@/settings'
 
 const { showSettings, fixedHeader, sidebarLogo } = defaultSettings
@@ -18,7 +19,7 @@ const mutations = {
 }
 
 const actions = {
-  changeSetting({ commit }, data) {
+  changeSetting ({ commit }, data) {
     commit('CHANGE_SETTING', data)
   }
 }
@@ -29,4 +30,3 @@ export default {
   mutations,
   actions
 }
-

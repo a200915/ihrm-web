@@ -1,3 +1,5 @@
+// 用户登录、注销、token的储存和删除等
+
 import { login, logout, getInfo } from '@/api/modules/user'
 import { getToken, setToken, removeToken } from '@/utils/auth'
 import { resetRouter } from '@/router'
@@ -50,24 +52,21 @@ const actions = {
     })
   },
 
-  // get user info
+  // 获取用户基本信息
   getInfo ({ commit, state }) {
     return new Promise((resolve, reject) => {
       getInfo(state.token)
         .then(response => {
           const { data } = response
-
           if (!data) {
             reject('Verification failed, please Login again.')
           }
-
           const { roles, name, avatar } = data
 
           // roles must be a non-empty array
           if (!roles || roles.length <= 0) {
             reject('getInfo: roles must be a non-null array!')
           }
-
           commit('SET_ROLES', roles)
           commit('SET_NAME', name)
           commit('SET_AVATAR', avatar)
@@ -79,19 +78,17 @@ const actions = {
     })
   },
 
-  // user logout
+  // 用户注销
   logout ({ commit, state }) {
     return new Promise((resolve, reject) => {
-      logout(state.token)
-        .then(() => {
-          removeToken() // must remove  token  first
-          resetRouter()
-          commit('RESET_STATE')
-          resolve()
-        })
-        .catch(error => {
-          reject(error)
-        })
+      // 删除token
+      removeToken()
+      // 重置router
+      resetRouter()
+      // 重置user.js的state
+      commit('RESET_STATE')
+
+      resolve()
     })
   },
 
