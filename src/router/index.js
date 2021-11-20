@@ -1,10 +1,10 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-
 Vue.use(Router)
 
 /* Layout */
 import Layout from '@/layout'
+import setting from '@/router/modules/setting'
 
 /**
  * Note: sub-menu only appear when route children.length >= 1
@@ -69,7 +69,7 @@ export const constantRoutes = [
  * the routes that need to be dynamically loaded based on user roles
  * 需要根据角色来动态加载的路由（受权限管控）
  */
-export const asyncRoutes = []
+export const asyncRoutes = [setting]
 
 const createRouter = () =>
   new Router({

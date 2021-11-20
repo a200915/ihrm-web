@@ -166,6 +166,9 @@ export default {
       }
     }
   }
+  .user {
+    cursor: pointer;
+  }
   .cpmpany-name {
     display: inline-block;
     color: #fff;
