@@ -20,7 +20,11 @@
       >
         <div class="avatar-wrapper">
           <div class="user">
-            <img :src="staffPhoto" class="user-avatar" />
+            <img
+              :src="staffPhoto"
+              v-imgerror="require('@/assets/common/head.jpg')"
+              class="user-avatar"
+            />
             <span class="name">{{ username }}</span>
             <i class="el-icon-caret-bottom" />
           </div>
