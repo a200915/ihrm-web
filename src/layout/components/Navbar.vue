@@ -11,10 +11,11 @@
       万帆集团股份有限公司
       <el-tag>尊享版</el-tag>
     </div>
-
     <div class="right-menu">
+      <Screenfull class="right-menu-item"></Screenfull>
+      <!-- 头像显示 -->
       <el-dropdown
-        class="avatar-container"
+        class="avatar-container right-menu-item"
         @command="handleCommand"
         trigger="click"
       >
@@ -48,9 +49,11 @@
 import { mapActions, mapGetters } from 'vuex'
 import Breadcrumb from '@/components/Breadcrumb'
 import Hamburger from '@/components/Hamburger'
+import Screenfull from '@/components/Screenfull'
 
 export default {
   components: {
+    Screenfull,
     Breadcrumb,
     Hamburger
   },
@@ -158,6 +161,7 @@ export default {
         }
         .name {
           color: #fff;
+          font-size: 14px;
           vertical-align: middle;
           margin-left: 5px;
         }
