@@ -10,13 +10,6 @@
       </router-link>
     </transition>
   </div>
-  <!-- <div class="sidebar-logo-container" :class="{ collapse: collapse }">
-    <transition name="sidebarLogoFade">
-      <router-link key="collapse" class="sidebar-logo-link" to="/">
-        <img src="@/assets/common/logo.png" class="sidebar-logo  " />
-      </router-link>
-    </transition>
-  </div> -->
 </template>
 
 <script>

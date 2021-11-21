@@ -77,7 +77,6 @@ export default {
        * 3.请求注销接口(不涉及)
        * 4.跳转到登录页面（不带回跳地址）
        */
-      console.log(this.logout)
       this.logout()
       this.$router.push('/login')
     }

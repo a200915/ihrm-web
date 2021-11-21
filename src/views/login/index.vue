@@ -134,7 +134,7 @@ export default {
     handleLogin () {
       this.$refs.loginForm.validate(async valid => {
         if (valid) {
-          this['user/login'](this.loginForm)
+          await this['user/login'](this.loginForm)
           this.$router.push({ path: this.redirect || '/' })
         } else {
           console.log('error submit!!')

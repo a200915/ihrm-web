@@ -42,7 +42,7 @@ router.beforeEach(async (to, from, next) => {
     if (whiteList.includes(to.path)) {
       next()
     } else {
-      next(`/login?redirect = ${to.fullPath}`)
+      next(`/login?redirect=${to.fullPath}`)
       NProgress.done()
     }
   }

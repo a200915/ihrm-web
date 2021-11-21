@@ -1,6 +1,7 @@
 import axios from 'axios'
 import { Message } from 'element-ui'
 import store from '@/store'
+import router from '@/router'
 import { getToken } from '@/utils/auth'
 
 // create an axios instance
@@ -14,10 +15,8 @@ const service = axios.create({
 service.interceptors.request.use(
   config => {
     // do something before request is sent
-    if (store.getters.token) {
-      // 根据项目而定
-      config.headers['Authorization'] = `Bearer ${getToken()}`
-    }
+    // 根据项目而定
+    getToken() && (config.headers['Authorization'] = `Bearer ${getToken()}`)
     return config
   },
   error => {
@@ -40,7 +39,16 @@ service.interceptors.response.use(
     }
   },
   error => {
-    console.log('err' + error) // for debug
+    if (error.request.status === 401) {
+      Message({
+        message: '登录已过期，请重新登录！',
+        type: 'error',
+        duration: 5 * 1000
+      })
+      store.dispatch('user/logout')
+      router.push(`/login?redirect=${window.location.href.split('#')[1]}`)
+      return Promise.reject(error)
+    }
     Message({
       message: error.message,
       type: 'error',
@@ -49,5 +57,20 @@ service.interceptors.response.use(
     return Promise.reject(error)
   }
 )
+
+// 统一请求错误处理
+// function _fetch (config) {
+//   return new Promise((resolve, reject) => {
+//     service(config)
+//       .then(res => {
+//         resolve(res)
+//       })
+//       .catch(err => {
+//         console.log(err)
+//       })
+//   })
+// }
+
+// export default _fetch
 
 export default service
